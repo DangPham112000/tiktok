@@ -4,13 +4,15 @@ function App() {
   const [counter, setCounter] = useState(1);
   
   const increaseCounter = () => {
-    setCounter(counter + 1);
+    setCounter(prevCounter => prevCounter + 1);
+    setCounter(prevCounter => prevCounter + 1);
+    setCounter(prevCounter => prevCounter + 1);
   }
   
   return (
     <div className="App" style={{padding: "12px"}}>
       <h1>{counter}</h1>
-      <button onClick={increaseCounter}>plus</button>
+      <button onClick={increaseCounter}>plus + 3</button>
     </div>
   );
 }
