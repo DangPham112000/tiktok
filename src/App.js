@@ -1,29 +1,24 @@
 import { useState } from 'react';
 
-const orders = [300, 500, 700];
 
 function App() {
-  // const total = orders.reduce((total, order) => {
-  //   return total + order;
-  // });
-  // console.log(total);
-  
-  const [counter, setCounter] = useState(() => {
-    
-    const total = orders.reduce((totalOrders, order) => totalOrders + order);
-    
-    console.log(total);
-    return total;
+  const [info, setInfo] = useState({
+    name: 'Pham Hai Dang',
+    age: 21,
+    job: 'student'
   });
-  
-  const increaseCounter = () => {
-    setCounter(prevCounter => prevCounter + 1);
-  }
-  
+
+  const updateInfo = () => {
+    setInfo({
+      ...info,
+      bio: 'dep trai con lai 12 dong mau'
+    });
+  };
+
   return (
     <div className="App" style={{padding: "12px"}}>
-      <h1>{counter}</h1>
-      <button onClick={increaseCounter}>plus</button>
+      <h1>{JSON.stringify(info)}</h1>
+      <button onClick={updateInfo}>update info</button>
     </div>
   );
 }
