@@ -2,21 +2,22 @@ import { useState } from 'react';
 
 function App() {
   const [name, setName] = useState('');
-
-  const getName = (e) => {
-    setName(e.target.value);
-  };
+  const [email, setEmail] = useState('');
   
-  const resetName = (e) => {
-    setName('Pham Hai Dang')
+  const submit = () => {
+    // Call API
+    console.log({
+      name, 
+      email
+    });
   };
-
-  console.log(name);
   
   return (
     <div className="App" style={{padding: "60px"}}>
-      <input value={name} onChange={getName}/>
-      <button onClick={resetName}>Reset</button>
+      <input value={name} onChange={(e) => { setName(e.target.value) }}/>
+      <br />
+      <input value={email} onChange={(e) => { setEmail(e.target.value) }}/>
+      <button onClick={submit}>submit</button>
     </div>
   );
 }
