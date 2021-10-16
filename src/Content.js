@@ -2,19 +2,26 @@ import { useState, useEffect } from 'react';
 
 
 function Content() {
-    const [title, setTitle] = useState('');
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        console.log('use effect');
-        document.title = title;
-    }); 
+        fetch('https://jsonplaceholder.typicode.com/posts')
+            .then(res => res.json())
+            .then(posts => {
+                setPosts(posts);
+            });
+    }, []); 
+
     
     return (
         <div>
-            <input
-                onChange={(e) => setTitle(e.target.value)}
-            />
-            {console.log('Add element to DOM')}
+            <ul>
+                {posts.map(post => {
+                    return (
+                        <li key={post.id}>{post.title}</li>
+                    );
+                })}
+            </ul>
         </div>
     );
 }
