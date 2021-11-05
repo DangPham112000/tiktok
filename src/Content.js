@@ -1,11 +1,12 @@
+import { cleanup } from '@testing-library/react';
 import { useState, useEffect } from 'react';
 
 const btns = ['posts', 'comments', 'albums'];
 
 function Content() {
-    const [title, setTitle] = useState('');
     const [contents, setContents] = useState([]);
     const [type, setType] = useState('posts');
+    const [isShow, setIsShow] = useState(false);
 
     useEffect(() => {
         fetch(`https://jsonplaceholder.typicode.com/${type}`)
@@ -14,7 +15,26 @@ function Content() {
                 setContents(data);
             });
     }, [type]); 
+
     
+    useEffect(() => {
+        const handleShowGoToTop = () => {
+            if (window.scrollY > 500) {
+                setIsShow(true);
+            } else {
+                setIsShow(false);
+            }
+        } 
+
+        window.addEventListener('scroll', handleShowGoToTop); 
+
+        // cleanup function
+        return () => {
+            window.removeEventListener('scroll', handleShowGoToTop);
+        }
+    }, []);
+    
+
     return (
         <div>
             {btns.map(btn => (
@@ -29,10 +49,6 @@ function Content() {
                     {btn}
                 </button>
             ))}
-            <input 
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-            />
             <ul>
                 {contents.map(content => {
                     return (
@@ -40,6 +56,17 @@ function Content() {
                     );
                 })}
             </ul>
+            { isShow && (
+                <button
+                    style={{
+                        position: 'fixed',
+                        right: 10,
+                        bottom: 10,
+                    }}
+                >
+                    Go to top
+                </button>
+            )}
         </div>
     );
 }
