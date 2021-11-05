@@ -1,72 +1,25 @@
-import { cleanup } from '@testing-library/react';
 import { useState, useEffect } from 'react';
 
-const btns = ['posts', 'comments', 'albums'];
-
 function Content() {
-    const [contents, setContents] = useState([]);
-    const [type, setType] = useState('posts');
-    const [isShow, setIsShow] = useState(false);
+    const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(() => {
-        fetch(`https://jsonplaceholder.typicode.com/${type}`)
-            .then(res => res.json())
-            .then(data => {
-                setContents(data);
-            });
-    }, [type]); 
-
-    
-    useEffect(() => {
-        const handleShowGoToTop = () => {
-            if (window.scrollY > 500) {
-                setIsShow(true);
-            } else {
-                setIsShow(false);
-            }
-        } 
-
-        window.addEventListener('scroll', handleShowGoToTop); 
-
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+        }
+        
+        window.addEventListener('resize', handleResize);
+        
         // cleanup function
         return () => {
-            window.removeEventListener('scroll', handleShowGoToTop);
+            window.removeEventListener('resize', handleResize);
         }
     }, []);
     
 
     return (
         <div>
-            {btns.map(btn => (
-                <button
-                    key={btn}
-                    style={btn === type ? {
-                        color: '#fff',
-                        background: '#000',
-                    } : {}}
-                    onClick={() => setType(btn)}
-                >
-                    {btn}
-                </button>
-            ))}
-            <ul>
-                {contents.map(content => {
-                    return (
-                        <li key={content.id}>{content.title || content.name}</li>
-                    );
-                })}
-            </ul>
-            { isShow && (
-                <button
-                    style={{
-                        position: 'fixed',
-                        right: 10,
-                        bottom: 10,
-                    }}
-                >
-                    Go to top
-                </button>
-            )}
+            <h1>{width}</h1>
         </div>
     );
 }
