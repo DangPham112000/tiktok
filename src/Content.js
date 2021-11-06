@@ -1,25 +1,19 @@
 import { useState, useEffect } from 'react';
 
 function Content() {
-    const [width, setWidth] = useState(window.innerWidth);
+    const [time, setTime] = useState(180);
 
     useEffect(() => {
-        const handleResize = () => {
-            setWidth(window.innerWidth);
-        }
-        
-        window.addEventListener('resize', handleResize);
-        
-        // cleanup function
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }
+        const timerId = setInterval(() => {
+            setTime(prevTime => prevTime - 1);
+        }, 1000);
+
+        return () => clearInterval(timerId);
     }, []);
-    
 
     return (
         <div>
-            <h1>{width}</h1>
+            <h1>{time}</h1>
         </div>
     );
 }
