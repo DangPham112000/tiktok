@@ -1,19 +1,33 @@
 import { useState, useEffect } from 'react';
 
 function Content() {
-    const [time, setTime] = useState(180);
-
+    const [avatar, setAvatar] = useState();
+    
     useEffect(() => {
-        const timerId = setTimeout(() => {
-            setTime(time - 1);
-        }, 1000);
+        return () => avatar && URL.revokeObjectURL(avatar.url);
+    }, [avatar]);
 
-        return () => clearTimeout(timerId);
-    }, [time]);
-
+    const handleFile = (e) => {
+        const img = e.target.files[0];
+        img.url = URL.createObjectURL(img)
+        setAvatar(img);
+    }
+    
     return (
         <div>
-            <h1>{time}</h1>
+            <input
+                type="file"
+                onChange={handleFile}
+            />
+            {avatar && (
+                <img 
+                    src={avatar.url} 
+                    style={{
+                        width: 500,
+                        display: 'block',
+                    }}
+                />
+            )}
         </div>
     );
 }
