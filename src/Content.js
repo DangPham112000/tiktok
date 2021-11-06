@@ -4,12 +4,12 @@ function Content() {
     const [time, setTime] = useState(180);
 
     useEffect(() => {
-        const timerId = setInterval(() => {
-            setTime(prevTime => prevTime - 1);
+        const timerId = setTimeout(() => {
+            setTime(time - 1);
         }, 1000);
 
-        return () => clearInterval(timerId);
-    }, []);
+        return () => clearTimeout(timerId);
+    }, [time]);
 
     return (
         <div>
