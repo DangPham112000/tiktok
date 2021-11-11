@@ -4,6 +4,22 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// fake comment
+// Phát comment
+function emmitComment(id) {
+  setInterval(() => {
+    window.dispatchEvent(
+      new CustomEvent(`lesson-${id}`, {
+        detail: `day la comment cua lesson ${id}`
+      }) 
+    );
+  }, 2000);
+}
+
+emmitComment(1);
+emmitComment(2);
+emmitComment(3);
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

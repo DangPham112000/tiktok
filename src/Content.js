@@ -1,35 +1,52 @@
 import { useState, useEffect } from 'react';
 
-function Content() {
-    const [avatar, setAvatar] = useState();
-    
-    useEffect(() => {
-        return () => avatar && URL.revokeObjectURL(avatar.url);
-    }, [avatar]);
-
-    const handleFile = (e) => {
-        const img = e.target.files[0];
-        img.url = URL.createObjectURL(img)
-        setAvatar(img);
+const lessons = [
+    {
+        id: 1,
+        name: 'Hoc JS cung HDP'
+    }, 
+    {
+        id: 2,
+        name: 'Hoc HTML/CSS'
+    },
+    {
+        id: 3,
+        name: 'Hoc ReactJS'
     }
+];
+
+function Content() {
+    const [channelSelect, setChannelSeclect] = useState(1);
+
+
+    useEffect(() => {
+        const handleComment = (e) => {
+            console.log(e.detail);
+        }
+        window.addEventListener(`lesson-${channelSelect}`, handleComment);
+
+        return () => {
+            window.removeEventListener(`lesson-${channelSelect}`, handleComment);
+        }
+    }, [channelSelect])
     
     return (
         <div>
-            <input
-                type="file"
-                onChange={handleFile}
-            />
-            {avatar && (
-                <img 
-                    src={avatar.url} 
-                    style={{
-                        width: 500,
-                        display: 'block',
-                    }}
-                />
-            )}
+            <ul>
+                {lessons.map(lesson => (
+                    <li 
+                        key={lesson.id} 
+                        style={channelSelect === lesson.id ? {color: 'red'} : {}}
+                        onClick={() => setChannelSeclect(lesson.id)}
+                    >
+                        {lesson.name}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
 
 export default Content;
+
+
