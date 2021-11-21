@@ -1,48 +1,42 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 
-const lessons = [
-    {
-        id: 1,
-        name: 'Hoc JS cung HDP'
-    }, 
-    {
-        id: 2,
-        name: 'Hoc HTML/CSS'
-    },
-    {
-        id: 3,
-        name: 'Hoc ReactJS'
-    }
-];
+// useEffect
+// 1. Cập nhật lại state
+// 2. Cập nhật DOM (mutated)
+// 3. Render lại UI
+// 4. Gọi cleanup nếu deps thay đổi
+// 5. Gọi useEffect callback 
+
+// useLayoutEffect
+// 1. Cập nhật lại state
+// 2. Cập nhật DOM (mutated)
+// 3. Gọi cleanup nếu deps thay đổi (sync)
+// 4. Gọi useEffect callback (sync)
+// 5. Render lại UI
 
 function Content() {
-    const [channelSelect, setChannelSeclect] = useState(1);
+    const [number, setNumber] = useState(0);
 
+    // render 0 1 2 3 4 0 1 2....
+    // useEffect(() => {
+    //     if (number > 3) 
+    //         setNumber(0);
+    // }, [number]);
 
-    useEffect(() => {
-        const handleComment = (e) => {
-            console.log(e.detail);
-        }
-        window.addEventListener(`lesson-${channelSelect}`, handleComment);
+    // render 0 1 2 3 0 1 2....
+    useLayoutEffect(() => {
+        if (number > 3) 
+            setNumber(0);
+    }, [number]);
 
-        return () => {
-            window.removeEventListener(`lesson-${channelSelect}`, handleComment);
-        }
-    }, [channelSelect])
+    const handleCount = () => {
+        setNumber(number + 1);
+    }
     
     return (
         <div>
-            <ul>
-                {lessons.map(lesson => (
-                    <li 
-                        key={lesson.id} 
-                        style={channelSelect === lesson.id ? {color: 'red'} : {}}
-                        onClick={() => setChannelSeclect(lesson.id)}
-                    >
-                        {lesson.name}
-                    </li>
-                ))}
-            </ul>
+            <h2>{number}</h2>
+            <button onClick={handleCount}>Lets+1</button>
         </div>
     );
 }
