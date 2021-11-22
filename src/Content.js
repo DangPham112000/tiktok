@@ -1,14 +1,19 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 function Content() {
     const [number, setNumber] = useState(80);
 
     const timerId = useRef();
+    const prevNumberLook = useRef();
+
+    useEffect(() => {
+        prevNumberLook.current = number;
+    }, [number]);
 
     const handleRun = () => {
         timerId.current = setInterval(() => {
             setNumber(prevNumber => prevNumber - 1);
-        }, 100);
+        }, 1000);
         console.log('Run: ', timerId);
     }
     
@@ -16,6 +21,8 @@ function Content() {
         clearInterval(timerId.current);
         console.log('Stop: ', timerId);
     }
+
+    console.log("current: ", number, "prev", prevNumberLook.current);
 
     return (
         <div>
