@@ -5,11 +5,20 @@ function Content() {
 
     const timerId = useRef();
     const prevNumberLook = useRef();
+    const h1Ref = useRef();
 
     useEffect(() => {
         prevNumberLook.current = number;
     }, [number]);
 
+    useEffect(() => {
+        // Lấy element
+        console.log(h1Ref.current);
+        // lấy toạ độ
+        const rect = h1Ref.current.getBoundingClientRect();
+        console.log(rect);
+    })
+    
     const handleRun = () => {
         timerId.current = setInterval(() => {
             setNumber(prevNumber => prevNumber - 1);
@@ -26,7 +35,7 @@ function Content() {
 
     return (
         <div>
-            <h2>{number}</h2>
+            <h2 ref={h1Ref}>{number}</h2>
             <button onClick={handleRun}>Lets go</button>
             <button onClick={handleStop}>Stop it</button>
         </div>
