@@ -1,20 +1,39 @@
 
-import { useContext } from 'react';
-import './App.css';
-import Content from './Content';
-import { ThemeProvider, ThemeContext } from './ThemeContext';
-
-
+import { useRef } from 'react';
+import { useStore, actions } from './store'
 
 function App() {
 
-  const context = useContext(ThemeContext);
+  const [state, dispatch] = useStore();
+
+  const inputRef = useRef();
+
+  const handleSubmit = () => {
+    dispatch(actions.addToDo(state.jobInput));
+    dispatch(actions.setToDoInput(''));
+    inputRef.current.focus();
+  }
+
   
-  console.log(context, 'alo')
   return (
     <div className="App" style={{ padding: "60px" }}>
-      <button onClick={context.toggleTheme}>Toggle Theme</button>
-      <Content />
+      <input
+        ref={inputRef}
+        placeholder='your work'
+        value={state.jobInput}
+        onChange={(e) => {
+          dispatch(actions.setToDoInput(e.target.value))
+        }}
+      />
+      <button onClick={handleSubmit}>Add job</button>
+      <ul>
+        {state.jobs.map((job, index) => (
+          <li key={index}>
+            <span>{job}</span>
+            <span onClick={()=>{dispatch(actions.delToDo(index))}}>&times;</span>
+          </li>
+        ))}
+      </ul>
     </div>
 
   )
