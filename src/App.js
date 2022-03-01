@@ -4,7 +4,7 @@ import Video from './Video'
 function App() {
   
   const videoRef = useRef();
-  
+
   const handlePause = () => {
     videoRef.current.pause();
   }
