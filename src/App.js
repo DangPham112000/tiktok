@@ -1,41 +1,24 @@
-
 import { useRef } from 'react';
-import { useStore, actions } from './store'
+import Video from './Video'
 
 function App() {
-
-  const [state, dispatch] = useStore();
-
-  const inputRef = useRef();
-
-  const handleSubmit = () => {
-    dispatch(actions.addToDo(state.jobInput));
-    dispatch(actions.setToDoInput(''));
-    inputRef.current.focus();
+  
+  const videoRef = useRef();
+  
+  const handlePause = () => {
+    videoRef.current.pause();
   }
-
+  const handlePlay = () => {
+    videoRef.current.play();
+  }
+  
   
   return (
     <div className="App" style={{ padding: "60px" }}>
-      <input
-        ref={inputRef}
-        placeholder='your work'
-        value={state.jobInput}
-        onChange={(e) => {
-          dispatch(actions.setToDoInput(e.target.value))
-        }}
-      />
-      <button onClick={handleSubmit}>Add job</button>
-      <ul>
-        {state.jobs.map((job, index) => (
-          <li key={index}>
-            <span>{job}</span>
-            <span onClick={()=>{dispatch(actions.delToDo(index))}}>&times;</span>
-          </li>
-        ))}
-      </ul>
+      <Video ref={videoRef}/>
+      <button onClick={handlePlay}>Play</button>
+      <button onClick={handlePause}>Pause</button>
     </div>
-
   )
 }
 
