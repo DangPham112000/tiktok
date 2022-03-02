@@ -1,23 +1,12 @@
-import { useRef } from 'react';
-import Video from './Video'
+import Button from "./Button";
+
 
 function App() {
-  
-  const videoRef = useRef();
-
-  const handlePause = () => {
-    videoRef.current.pause();
-  }
-  const handlePlay = () => {
-    videoRef.current.play();
-  }
   
   
   return (
     <div className="App" style={{ padding: "60px" }}>
-      <Video ref={videoRef}/>
-      <button onClick={handlePlay}>Play</button>
-      <button onClick={handlePause}>Pause</button>
+      <Button primary/>
     </div>
   )
 }
